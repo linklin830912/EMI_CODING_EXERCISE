@@ -1,0 +1,56 @@
+.section {
+  background: #fff;
+  border: 1px solid var(--emi-light-grey);
+  border-radius: 6px;
+
+  padding: 20px;
+}
+
+.title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+/* divider line under title */
+.divider {
+  margin: 12px 0 16px;
+
+  border-top: 1px solid var(--emi-light-grey);
+}
+
+/* table-like layout */
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 70px 110px 1fr;
+  align-items: start;
+  gap: 12px;
+
+  font-size: 14px;
+}
+
+/* time column */
+.time {
+  font-family: "Roboto Condensed", sans-serif;
+  opacity: 0.7;
+}
+
+/* type column */
+.type {
+  font-family: "Roboto Condensed", sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* content column */
+.text {
+  color: var(--emi-dark);
+  line-height: 1.4;
+}

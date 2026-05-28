@@ -1,0 +1,21 @@
+.section {
+  background: white;
+
+  border: 1px solid var(--emi-light-grey);
+  border-radius: 6px;
+
+  padding: 24px;
+}
+
+.grid {
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.helper {
+  margin: 20px 0 0;
+
+  font-size: 14px;
+  opacity: 0.65;
+}

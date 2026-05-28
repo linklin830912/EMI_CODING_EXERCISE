@@ -1,0 +1,58 @@
+.section {
+  background: white;
+
+  border: 1px solid var(--emi-light-grey);
+  border-radius: 6px;
+
+  padding: 24px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.left {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.title {
+  margin: 0;
+
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.meta {
+  margin: 0;
+
+  font-size: 17px;
+}
+
+.elapsed {
+  text-align: right;
+}
+
+.label {
+  font-family: 'Roboto Condensed', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+
+  opacity: 0.6;
+}
+
+.time {
+  margin-top: 6px;
+
+  font-size: 36px;
+  font-weight: 900;
+}

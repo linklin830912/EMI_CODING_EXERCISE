@@ -1,0 +1,47 @@
+.section {
+  background: white;
+
+  border: 1px solid var(--emi-light-grey);
+  border-radius: 6px;
+
+  padding: 24px;
+}
+
+.heading {
+  margin: 0 0 18px;
+
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.actions {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.actions button {
+  border: 1px solid var(--emi-light-grey);
+  background: white;
+
+  border-radius: 999px;
+
+  padding: 12px 22px;
+
+  font-family: 'Roboto Condensed', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+
+  color: var(--emi-dark);
+}
+
+.actions button:disabled {
+  opacity: 0.45;
+}
+
+.note {
+  margin: 18px 0 0;
+
+  font-size: 14px;
+  opacity: 0.65;
+}

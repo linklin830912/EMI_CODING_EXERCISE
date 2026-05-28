@@ -48,11 +48,11 @@ export type RepairEvent = {
  * The ordered milestone sequence. The next-tappable milestone is the first
  * one in this list that doesn't yet appear in the event's entries.
  */
-export const MILESTONE_SEQUENCE: readonly MilestoneKind[] = [
-  'StartBreakdown',
-  'ArrivedAtMachine',
-  'ProblemIdentified',
-  'StartRepair',
-  'RepairComplete',
-  'ReturnToService',
+export const MILESTONE_SEQUENCE: readonly { kind: MilestoneKind, color: string }[] = [
+  {kind: 'StartBreakdown', color: 'red'},
+  {kind: 'ArrivedAtMachine', color: 'orange'},
+  {kind: 'ProblemIdentified', color: 'gold'},
+  {kind: 'StartRepair', color: 'orange'},
+  {kind: 'RepairComplete', color: 'green'},
+  {kind: 'ReturnToService', color: 'green'},
 ] as const;

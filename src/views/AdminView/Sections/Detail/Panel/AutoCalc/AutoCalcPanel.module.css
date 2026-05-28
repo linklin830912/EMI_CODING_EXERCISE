@@ -1,0 +1,72 @@
+/* OUTER PANEL */
+.calcPanel {
+  background: rgba(255, 255, 255, 0.04);
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+
+  border-radius: 6px;
+
+  padding: 16px;
+
+  color: var(--emi-off-white);
+}
+
+/* INNER BOX */
+.calcBox {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* TITLE */
+.calcBox h3 {
+  margin: 0;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+
+  opacity: 0.7;
+}
+
+/* METRIC ROW */
+.metric {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  font-size: 13px;
+
+  padding: 6px 0;
+
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.metric:first-of-type {
+  border-top: none;
+}
+
+/* LEFT LABEL */
+.metric span {
+  opacity: 0.75;
+}
+
+/* VALUE */
+.metric strong {
+  font-weight: 700;
+}
+
+/* STATUS COLORS */
+.good {
+  color: var(--emi-green);
+}
+
+.ok {
+  color: var(--emi-orange);
+}
+
+.bad {
+  color: var(--emi-red);
+}
