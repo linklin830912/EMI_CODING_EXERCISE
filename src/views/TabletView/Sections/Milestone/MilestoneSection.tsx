@@ -1,56 +1,42 @@
-import { MilestoneButton } from "@/components/MilestoneButton/MilestoneButton";
+import { MilestoneButton, MilestoneButtonColorsType } from "@/components/MilestoneButton/MilestoneButton";
 import styles from "./MilestoneSection.module.css";
+import { useState } from "react";
 
+const MILESTONE_BUTTONS_SEQUENCE: readonly { title: string, color: MilestoneButtonColorsType }[] = [
+  { title: 'Start Breakdown', color: 'red' },
+  { title: 'Arrived At Machine', color: 'orange' },
+  { title: 'Problem Identified', color: 'gold' },
+  { title: 'Start Repair', color: 'orange' },
+  { title: 'Repair Complete', color: 'green' },
+  { title: 'Return To Service', color: 'green' },
+] as const;
 
 export function MilestoneSection() {
+  const [currentStep, setCurrentStep] = useState(0);
+  
   return (
     <section className={styles.section}>
       <div className={styles.grid}>
-        <MilestoneButton
-          number={1}
-          label={"Start\nBreakdown"}
-          colour="red"
-        />
 
-        <MilestoneButton
-          number={2}
-          label={"Arrived At\nMachine"}
-          colour="orange"
-          disabled
+        {MILESTONE_BUTTONS_SEQUENCE.map((milestone, index) => <div
+          className={styles.milestoneButtonWrapper} key={milestone.title}>
+          <MilestoneButton
+            key={milestone.title}
+            number={index + 1}
+            label={milestone.title}
+            colour={milestone.color}
+            completed={index < currentStep}
+            disabled={index >= currentStep + 1}
+            onClick={() => {
+            setCurrentStep(index + 1)
+          }}
         />
+          <div className={styles.completedText}>
+            Complete
+          </div>
+        </div>)}
 
-        <MilestoneButton
-          number={3}
-          label={"Problem\nIdentified"}
-          colour="gold"
-          disabled
-        />
-
-        <MilestoneButton
-          number={4}
-          label={"Start\nRepair"}
-          colour="orange"
-          disabled
-        />
-
-        <MilestoneButton
-          number={5}
-          label={"Repair\nComplete"}
-          colour="green"
-          disabled
-        />
-
-        <MilestoneButton
-          number={6}
-          label={"Return To\nService"}
-          colour="green"
-          disabled
-        />
       </div>
-
-      <p className={styles.helper}>
-        Only the next milestone is tappable.
-      </p>
     </section>
   );
 }

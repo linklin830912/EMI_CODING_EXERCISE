@@ -1,3 +1,9 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .button {
   width: 130px;
   height: 130px;
@@ -15,12 +21,19 @@
   color: white;
 
   cursor: pointer;
+
+  transition: transform 0.2s ease;
+}
+
+.button:hover:not(:disabled) {
+  transform: translateY(-2px);
 }
 
 .number {
   font-size: 32px;
   font-weight: 900;
   line-height: 1;
+
   margin-bottom: 6px;
 }
 
@@ -53,6 +66,9 @@
 .disabled {
   background: var(--emi-light-grey);
   color: var(--emi-dark);
+
   box-shadow: none;
+
   cursor: not-allowed;
 }
+

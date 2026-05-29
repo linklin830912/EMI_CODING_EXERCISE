@@ -1,7 +1,8 @@
 import styles from "./StatusPill.module.css";
+import { RepairStatus } from "@/lib/types";
 
 type Props = {
-  status: "ACTIVE" | "STOPPED" | "COMPLETED";
+    status: RepairStatus;
 };
 
 export function StatusPill({ status }: Props) {

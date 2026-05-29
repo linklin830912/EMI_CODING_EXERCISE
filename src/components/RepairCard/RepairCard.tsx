@@ -15,7 +15,7 @@ export function RepairCard() {
           </p>
         </div>
 
-        <StatusPill status="ACTIVE" />
+        <StatusPill status="Active" />
       </div>
 
       <div className={styles.meta}>

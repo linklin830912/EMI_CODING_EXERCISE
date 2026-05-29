@@ -12,7 +12,7 @@ export function Header({ mode, onToggle }: Props) {
       data-mode={mode}
     >
       <div className={styles.left}>
-        <img
+        <img data-mode={mode}
           className={`${styles.logo} ${mode === "admin" ? styles.invert : ""}`}
           src="/emi3-logo.png"
           alt="EMI3"

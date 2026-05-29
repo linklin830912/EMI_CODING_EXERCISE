@@ -36,9 +36,6 @@
   font-size: 17px;
 }
 
-.elapsed {
-  text-align: right;
-}
 
 .label {
   font-family: 'Roboto Condensed', sans-serif;
@@ -48,11 +45,4 @@
   text-transform: uppercase;
 
   opacity: 0.6;
-}
-
-.time {
-  margin-top: 6px;
-
-  font-size: 36px;
-  font-weight: 900;
 }

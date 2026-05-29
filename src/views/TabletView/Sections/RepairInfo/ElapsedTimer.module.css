@@ -1,0 +1,20 @@
+.elapsed {
+  text-align: right;
+}
+
+.label {
+  font-family: 'Roboto Condensed', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+
+  opacity: 0.6;
+}
+
+.time {
+  margin-top: 6px;
+
+  font-size: 36px;
+  font-weight: 900;
+}

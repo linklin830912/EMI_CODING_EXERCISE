@@ -33,7 +33,7 @@
   flex-shrink: 0;
 }
 
-.invert {
+.logo[data-mode="admin"] {
   filter: brightness(0) invert(1);
 }
 
