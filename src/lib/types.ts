@@ -71,6 +71,13 @@ export const MILESTONE_BUTTONS_SEQUENCE: readonly { title: string, color: Milest
   { title: 'Return To Service', color: 'green', kind: 'ReturnToService' },
 ] as const;
 
+export const ANNOTATION_BUTTONS: readonly { title: string, kind: AnnotationKind }[] = [
+  { title: 'Findings', kind: 'Finding' },
+  { title: 'Actions', kind: 'Action' },
+  { title: 'Parts', kind: 'Part' },
+  { title: 'Notes', kind: 'Note' },
+] as const;
+
 export const MILESTONE_TITLE_BY_KIND: Record<
   MilestoneKind | AnnotationKind,
   string
@@ -110,3 +117,6 @@ export const defaultRepairEventProfile = (registeredBy: string): RepairEventProf
     }))
 }
 };
+
+export const GOOD_METRIC = 10;
+export const MID_METRIC = 30;

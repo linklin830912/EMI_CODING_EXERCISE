@@ -1,43 +1,35 @@
 import { MilestoneButtonColorsType } from "@/lib/types";
 import styles from "./MilestoneButton.module.css";
 
-type Props = {
+type MilestoneButtonProps = {
   number: number;
   label: string;
   colour: MilestoneButtonColorsType;
   next: boolean;
   disabled?: boolean;
-    completed?: boolean;
+  completed?: boolean;
   onClick: () => void
 };
 
-export function MilestoneButton({
-  number,
-  label,
-  colour,
-  disabled,
-  next,
-    completed,
-  onClick
-}: Props) {
+export function MilestoneButton(props: MilestoneButtonProps) {
   return (
     <div className={styles.wrapper}>
           <button
-            onClick={() =>{if(!completed) onClick()}}
-            disabled={disabled}
+            onClick={() =>{if(!props.completed) props.onClick()}}
+            disabled={props.disabled}
             className={`
             ${styles.button}
-            ${styles[colour]}
-            ${next ? styles.next : ""}
-            ${disabled ? styles.disabled : ""}
+            ${styles[props.colour]}
+            ${props.next ? styles.next : ""}
+            ${props.disabled ? styles.disabled : ""}
         `}
       >
         <span className={styles.number}>
-          {`${completed ? "✓":"" } ${number}`}
+          {`${props.completed ? "✓":"" } ${props.number}`}
         </span>
 
         <span className={styles.label}>
-          {label}
+          {props.label}
         </span>
       </button>
     </div>

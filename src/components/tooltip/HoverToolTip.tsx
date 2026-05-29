@@ -5,16 +5,13 @@ type HoverToolTipProps = {
   children: React.ReactNode;
 };
 
-export function HoverToolTip({
-    text,
-  children,
-}: HoverToolTipProps) {
+export function HoverToolTip(props: HoverToolTipProps) {
   return (
     <div className={styles.wrapper}>
-      {children}
+      {props.children}
 
       <div className={styles.tooltip}>
-              { text}
+              { props.text}
       </div>
     </div>
   );

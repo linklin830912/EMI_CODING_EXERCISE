@@ -1,4 +1,4 @@
-import { RepairEvent } from "@/lib/types";
+import { GOOD_METRIC, MID_METRIC, RepairEvent } from "@/lib/types";
 import styles from "./AutoCalcPanel.module.css";
 import { getMinuteFromTime } from "@/util/getMinuteFromTime";
 
@@ -8,14 +8,12 @@ type AutoCalcPanelProps = {
 
 type Metric = {
   label: string;
-  value?: number;
-  emphasize?: boolean;
+  value: number;
+  isTotal?: number;
 };
 
-export function AutoCalcPanel({
-  repairEvent,
-}: AutoCalcPanelProps) {
-  const milestoneEntries = repairEvent.entries.filter(
+export function AutoCalcPanel(props: AutoCalcPanelProps) {
+  const milestoneEntries = props.repairEvent.entries.filter(
     (entry) => entry.type === "milestone"
   );
 
@@ -31,42 +29,22 @@ export function AutoCalcPanel({
   };
 
   const metrics: Metric[] = [
-    {
-      label: "Response time",
-      value: getDuration(0, 1),
-    },
-    {
-      label: "Diagnosis time",
-      value: getDuration(1, 2),
-    },
-    {
-      label: "Repair time",
-      value: getDuration(3, 4),
-    },
-    {
-      label: "Total downtime",
-      value: getDuration(0, 5),
-      emphasize: true,
-    },
+    { label: "Response time", value: getDuration(0, 1) },
+    { label: "Diagnosis time", value: getDuration(1, 2) },
+    { label: "Repair time", value: getDuration(3, 4) },
+    { label: "Total downtime", value: getDuration(0, 5) },
   ];
 
-  const getMetricStatus = (
-    value?: number
-  ) => {
-    if (value === undefined) {
+  const getMetricStatus = (value: number) => {
+    if (value === -1) {
       return "undone";
-    }
-
-    if (value < 10) {
+    } else if (value < GOOD_METRIC) {
       return "good";
-    }
-
-    if (value < 30) {
+    } else if (value < MID_METRIC) {
       return "ok";
     }
-
     return "bad";
-  };
+};
 
   return (
     <div className={styles.calcPanel}>
@@ -74,29 +52,15 @@ export function AutoCalcPanel({
         <h3>Auto-calculated</h3>
 
         {metrics.map((metric) => (
-          <div
-            key={metric.label}
-            className={styles.metric}
-          >
+          <div key={metric.label} className={styles.metric} >
             <span>{metric.label}</span>
 
-            <strong
-              className={
-                metric.emphasize
-                  ? styles.total
-                  : styles[
-                      getMetricStatus(
-                        metric.value
-                      )
-                    ]
-              }
-            >
-              {metric.value !== undefined
-                ? `${metric.value} min`
-                : "-"}
+            <strong className={metric.isTotal? styles.total : styles[getMetricStatus(metric.value)]}>
+              {metric.value !== -1 ? `${metric.value} min`: "-"}
             </strong>
           </div>
         ))}
+
       </div>
     </div>
   );

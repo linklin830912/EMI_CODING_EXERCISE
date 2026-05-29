@@ -9,5 +9,5 @@ export function convertRepairEventProfileToEvent(profile: RepairEventProfile, ev
             status: status,
             registeredAt: profile.stages[0]!?.at,
             entries: profile.stages.flatMap(stage => stage.entries)
-          } satisfies RepairEvent
+          } as RepairEvent
 }

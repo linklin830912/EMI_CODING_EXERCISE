@@ -1,16 +1,16 @@
 import styles from "./StatusPill.module.css";
 import { RepairStatus } from "@/lib/types";
 
-type Props = {
+type StatusPillProps = {
     status: RepairStatus;
 };
 
-export function StatusPill({ status }: Props) {
+export function StatusPill(props: StatusPillProps) {
   return (
     <span
-      className={`${styles.pill} ${styles[status.toLowerCase()]}`}
+      className={`${styles.pill} ${styles[props.status.toLowerCase()]}`}
     >
-      {status}
+      {props.status}
     </span>
   );
 }

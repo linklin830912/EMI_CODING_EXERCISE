@@ -3,7 +3,6 @@ import { getTimeStamp } from "./getTimeStamp";
 import { DEFAULT_REPAIR_EVENT_DATA } from "@/lib/seed";
 
 export function createDefaultEvent(id: number, startTime: number): RepairEvent {
-    // TODO: id: number for generating id and assets
     return {
         id: `${DEFAULT_REPAIR_EVENT_DATA.id}_${id}`,
         asset: `${DEFAULT_REPAIR_EVENT_DATA.asset}-${id}`,

@@ -1,11 +1,11 @@
-import { defaultRepairEventProfile, MILESTONE_BUTTONS_SEQUENCE, MilestoneKind, RepairEvent, RepairEventProfile } from "@/lib/types";
+import { defaultRepairEventProfile, MilestoneKind, RepairEvent } from "@/lib/types";
 import { AnnotationSection } from "./Sections/Annotation/AnnotationSection";
 import { FooterSection } from "./Sections/Footer/FooterSection";
 import { MilestoneSection } from "./Sections/Milestone/MilestoneSection";
 import { RecentEntriesSection } from "./Sections/RecentEntries/RecentEntriesSection";
 import { RepairInfoSection } from "./Sections/RepairInfo/RepairInfoSection";
 import styles from "./TabletView.module.css";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useStore } from "@/store/RepairEventStore";
 
 type TabletViewProps = { repairEvent: RepairEvent };

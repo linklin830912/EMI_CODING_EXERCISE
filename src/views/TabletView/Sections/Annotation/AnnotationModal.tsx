@@ -13,8 +13,8 @@ type AnnotationModalProps = {
 };
 
 export function AnnotationModal(props: AnnotationModalProps) {
-    const [text, setText] = useState("");
-    const { state } = useStore();
+  const [text, setText] = useState("");
+  const { state } = useStore();
 
   useEffect(() => {
     if (props.open) setText("");
@@ -25,28 +25,24 @@ export function AnnotationModal(props: AnnotationModalProps) {
   const handleSave = () => {
     if (!text.trim() || !state.activeStartTime) return;
 
-      const payload ={
-            type: "annotation",
-            text: text.trim(),
-            kind: props.kind,
-            at: getTimeStamp(state.activeStartTime),
-            by: props.user
-      } as Entry;
-      props.onSave(payload);
-      
+    const payload: Entry = {
+      type: "annotation",
+      text: text.trim(),
+      kind: props.kind,
+      at: getTimeStamp(state.activeStartTime),
+      by: props.user,
+    };
+
+    props.onSave(payload);
     props.onClose();
   };
 
   return (
     <div className={styles.overlay}>
       <div className={styles.modal}>
-        <div className={styles.header}>
-          ANNOTATION
-        </div>
+        <div className={styles.header}>ANNOTATION</div>
 
-        <div className={styles.title}>
-          Add {props.kind}s
-        </div>
+        <div className={styles.title}>Add {props.kind}</div>
 
         <textarea
           className={styles.textarea}

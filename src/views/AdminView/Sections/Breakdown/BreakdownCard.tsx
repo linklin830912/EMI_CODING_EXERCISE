@@ -9,41 +9,43 @@ type BreakdownCardProps = {
     onClick: () => void;    
 };
 
-export function BreakdownCard({
-    repairEvent,
-    isSelected,
-    onClick
-}: BreakdownCardProps) {
-  const entries = repairEvent.entries;
+export function BreakdownCard(props: BreakdownCardProps) {
+  const { entries, status, id, asset, system } = props.repairEvent;
+
   const lastEntry = entries.at(-1);
 
-  const timeText = !lastEntry
-    ? "No activity"
-    : repairEvent.status === "Completed"
-      ? `${getMinuteFromTime(
-          entries[0]!.at.time,
-          lastEntry.at.time
-        )} min total`
-      : `Last tap ${lastEntry.at.timestamp}`;
+  const getTimeText = () => {
+    if (!lastEntry) return "No activity";
+    if (status === "Completed") {
+      return `${getMinuteFromTime( entries[0]!.at.time, lastEntry.at.time )} min total`;
+    }
+    return `Last tap ${lastEntry.at.timestamp}`;
+  };
+
+  const timeText = getTimeText();
 
   return (
-    <div className={isSelected ? styles.cardSelected : styles.card} onClick={onClick}>
-      <div className={styles.id}>
-        {repairEvent.id}
-      </div>
+    <div
+      className={
+        props.isSelected
+          ? styles.cardSelected
+          : styles.card
+      }
+      onClick={props.onClick}
+    >
+      <div className={styles.id}>{id}</div>
 
-      <div className={styles.machine}>
-        {repairEvent.asset}
-      </div>
+      <div className={styles.machine}>{asset}</div>
 
-      <div className={styles.type}>
-        {repairEvent.system}
-      </div>
+      <div className={styles.type}>{system}</div>
 
-      <div className={`${styles.status} ${ styles[repairEvent.status.toLowerCase()] }`}>
-        <StatusPill status={repairEvent.status}/>
-          </div>
-          
+      <div
+        className={`${styles.status} ${
+          styles[status.toLowerCase()]
+        }`}
+      >
+        <StatusPill status={status} />
+      </div>
 
       <div className={styles.meta}>
         {timeText}

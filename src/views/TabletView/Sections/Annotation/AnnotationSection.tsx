@@ -1,19 +1,10 @@
-import { AnnotationKind, Entry, MilestoneKind, RepairEventProfile } from "@/lib/types";
+import { ANNOTATION_BUTTONS, AnnotationKind, Entry, MilestoneKind, RepairEventProfile } from "@/lib/types";
 import styles from "./AnnotationSection.module.css";
 import { AnnotationModal } from "./AnnotationModal";
 import { useState } from "react";
 import { useStore } from "@/store/RepairEventStore";
 
-const ANNOTATION_BUTTONS: readonly { title: string, kind: AnnotationKind }[] = [
-  { title: 'Findings', kind: 'Finding' },
-  { title: 'Actions', kind: 'Action' },
-  { title: 'Parts', kind: 'Part' },
-  { title: 'Notes', kind: 'Note' },
-] as const;
-
 type AnnotationSectionProps = {
-    // repairEventProfile: RepairEventProfile;
-    // setRepairEventProfile: React.Dispatch<React.SetStateAction<RepairEventProfile>>;
     registeredBy: string;
     ongoingMilestone: MilestoneKind | null;
 };

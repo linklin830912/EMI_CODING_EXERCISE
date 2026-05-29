@@ -36,9 +36,7 @@ export function App() {
   return (
     <div className={styles.app} data-mode={mode}>
       <Header mode={mode} onToggle={toggleMode} />
-
       {mode === "tablet" && activeRepairEvent && <TabletView repairEvent={activeRepairEvent} />}
-
       {mode === "admin" && activeRepairEvent && <AdminView repairEvent={activeRepairEvent}/>}
     </div>
   );

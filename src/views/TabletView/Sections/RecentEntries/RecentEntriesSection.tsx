@@ -1,4 +1,3 @@
-import { useStore } from "@/store/RepairEventStore";
 import styles from "./RecentEntries.module.css";
 import { AnnotationEntry, RepairEventProfile } from "@/lib/types";
 import { useMemo } from "react";

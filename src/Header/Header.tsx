@@ -5,15 +5,15 @@ type Props = {
   onToggle: () => void;
 };
 
-export function Header({ mode, onToggle }: Props) {
+export function Header(props: Props) {
   return (
     <header
       className={styles.header}
-      data-mode={mode}
+      data-mode={props.mode}
     >
       <div className={styles.left}>
-        <img data-mode={mode}
-          className={`${styles.logo} ${mode === "admin" ? styles.invert : ""}`}
+        <img data-mode={props.mode}
+          className={`${styles.logo} ${props.mode === "admin" ? styles.invert : ""}`}
           src="/emi3-logo.png"
           alt="EMI3"
         />
@@ -23,8 +23,8 @@ export function Header({ mode, onToggle }: Props) {
         </h1>
       </div>
 
-      <button className={styles.toggle} onClick={onToggle}>
-        {mode === "tablet" ? "Admin" : "Tablet"}
+      <button className={styles.toggle} onClick={props.onToggle}>
+        {props.mode === "tablet" ? "Admin" : "Tablet"}
       </button>
     </header>
   );
