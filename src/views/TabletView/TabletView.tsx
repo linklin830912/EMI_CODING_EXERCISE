@@ -22,6 +22,7 @@ export function TabletView({ repairEvent }: TabletViewProps) {
     
     setOngoingMilestone(null);
   };
+  const isComplete = state.currentRepairEventProfile.stages.every(stage => stage.completed);
 
   return (
     <div className={styles.container}>
@@ -30,12 +31,12 @@ export function TabletView({ repairEvent }: TabletViewProps) {
         repairEvent={repairEvent}
         setOngoingMilestone={setOngoingMilestone}
       />
-    <AnnotationSection
+    {!isComplete && <AnnotationSection
         registeredBy={repairEvent.registeredBy}
-        ongoingMilestone={ongoingMilestone} />
+        ongoingMilestone={ongoingMilestone} />}
       <RecentEntriesSection repairEventProfile={state.currentRepairEventProfile} />
       <FooterSection
-        isComplete={state.currentRepairEventProfile.stages.every(stage => stage.completed)}
+        isComplete={isComplete }
         handleStartNewRepair={handleStartNewRepair}
       />
     </div>

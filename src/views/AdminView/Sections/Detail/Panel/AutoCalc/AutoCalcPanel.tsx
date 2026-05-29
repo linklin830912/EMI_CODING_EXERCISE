@@ -19,14 +19,10 @@ export function AutoCalcPanel({
     (entry) => entry.type === "milestone"
   );
 
-  const getDuration = (
-    startIndex: number,
-    endIndex: number
-  ) => {
+  const getDuration = (startIndex: number,endIndex: number):number => {
     const start = milestoneEntries[startIndex];
     const end = milestoneEntries[endIndex];
-
-    if (!start || !end) return undefined;
+    if (!start || !end) return -1;
 
     return getMinuteFromTime(
       start.at.time,

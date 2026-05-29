@@ -36,9 +36,9 @@ function saveRepairEvent(state: State, action: { payload: RepairEvent }): State 
     const { payload } = action;
     return {
         ...state,
-        repairEvents: [
-            ...state.repairEvents, 
-            payload
+      repairEvents: [
+          payload,
+          ...state.repairEvents
         ],
     };
 }

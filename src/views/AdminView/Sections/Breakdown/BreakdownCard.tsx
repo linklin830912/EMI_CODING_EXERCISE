@@ -1,6 +1,7 @@
 import { RepairEvent } from "@/lib/types";
 import styles from "./BreakdownCard.module.css";
 import { getMinuteFromTime } from "@/util/getMinuteFromTime";
+import { StatusPill } from "@/components/pill/StatusPill";
 
 type BreakdownCardProps = {
     repairEvent: RepairEvent;
@@ -40,8 +41,9 @@ export function BreakdownCard({
       </div>
 
       <div className={`${styles.status} ${ styles[repairEvent.status.toLowerCase()] }`}>
-        {repairEvent.status}
-        </div>
+        <StatusPill status={repairEvent.status}/>
+          </div>
+          
 
       <div className={styles.meta}>
         {timeText}

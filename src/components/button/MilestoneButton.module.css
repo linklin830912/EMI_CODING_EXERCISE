@@ -64,11 +64,27 @@
 }
 
 .disabled {
-  background: var(--emi-light-grey);
   color: var(--emi-dark);
-
+  background: var(--emi-light-grey);
   box-shadow: none;
 
   cursor: not-allowed;
 }
 
+.next {
+   animation: floatButton 1.5s ease-in-out infinite;
+}
+
+@keyframes floatButton {
+  0% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-3px);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}

@@ -1,0 +1,52 @@
+/* DisabledFeatureButton.module.css */
+
+.wrapper {
+  position: relative;
+
+  display: inline-flex;
+}
+
+.button {
+  padding: 10px 14px;
+
+  border: none;
+  border-radius: 6px;
+
+  background: rgba(255, 255, 255, 0.08);
+
+  color: rgba(255, 255, 255, 0.4);
+
+  cursor: not-allowed;
+}
+
+/* TOOLTIP */
+.tooltip {
+  position: absolute;
+
+  bottom: calc(100% + 5px);
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  padding: 6px 10px;
+
+  border-radius: 6px;
+
+  background: #111;
+
+  color: white;
+
+  font-size: 12px;
+
+  white-space: nowrap;
+
+  opacity: 0;
+  pointer-events: none;
+
+  transition: opacity 120ms ease;
+}
+
+/* SHOW ON HOVER */
+.wrapper:hover .tooltip {
+  opacity: .5;
+}

@@ -1,4 +1,4 @@
-import { MilestoneButton } from "@/components/MilestoneButton/MilestoneButton";
+import { MilestoneButton } from "@/components/button/MilestoneButton";
 import styles from "./MilestoneSection.module.css";
 import {  MILESTONE_BUTTONS_SEQUENCE, MilestoneKind, RepairEvent, RepairEventProfile, RepairEventStage } from "@/lib/types";
 import { useStore } from "@/store/RepairEventStore";
@@ -59,6 +59,7 @@ export function MilestoneSection(props: MilestoneSectionProps) {
             label={milestone.title}
             colour={milestone.color}
             completed={index < state.currentRepairEventProfile.step}
+            next={index === state.currentRepairEventProfile.step}
             disabled={index >= state.currentRepairEventProfile.step + 1}
             onClick={() => {
               handleMilestoneClick(index)

@@ -5,6 +5,7 @@ type Props = {
   number: number;
   label: string;
   colour: MilestoneButtonColorsType;
+  next: boolean;
   disabled?: boolean;
     completed?: boolean;
   onClick: () => void
@@ -15,6 +16,7 @@ export function MilestoneButton({
   label,
   colour,
   disabled,
+  next,
     completed,
   onClick
 }: Props) {
@@ -26,6 +28,7 @@ export function MilestoneButton({
             className={`
             ${styles.button}
             ${styles[colour]}
+            ${next ? styles.next : ""}
             ${disabled ? styles.disabled : ""}
         `}
       >
