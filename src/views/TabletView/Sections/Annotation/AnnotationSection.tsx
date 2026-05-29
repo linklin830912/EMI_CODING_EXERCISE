@@ -1,4 +1,4 @@
-import { AnnotationKind, MilestoneKind } from "@/lib/types";
+import { AnnotationKind, MilestoneKind, RepairEventProfile } from "@/lib/types";
 import styles from "./AnnotationSection.module.css";
 import { AnnotationModal } from "./AnnotationModal";
 import { useState } from "react";
@@ -11,6 +11,9 @@ const ANNOTATION_BUTTONS: readonly { title: string, kind: AnnotationKind }[] = [
 ] as const;
 
 type AnnotationSectionProps = {
+    repairEventProfile: RepairEventProfile;
+    setRepairEventProfile: React.Dispatch<React.SetStateAction<RepairEventProfile>>;
+    registeredBy: string;
     ongoingMilestone: MilestoneKind | null;
 };
 export function AnnotationSection(props: AnnotationSectionProps) {
@@ -34,7 +37,22 @@ export function AnnotationSection(props: AnnotationSectionProps) {
       </div>
 
       {annotationKind && (
-        <AnnotationModal open={true} kind={annotationKind} user="John Doe"
+        <AnnotationModal
+          open={true} kind={annotationKind} user="John Doe"
+          onSave={(entry) => {
+            props.setRepairEventProfile(prev => {
+              const updatedStages = prev.stages.map(stage => {
+                if (stage.milestone === props.ongoingMilestone) {
+                  return {
+                    ...stage,
+                    entries: [...stage.entries, entry],
+                  };
+                }
+                return stage;
+              });
+              return { ...prev, stages: updatedStages };
+            });
+          }}
           onClose={() => setAnnotationKind(null)} />
       )}
 

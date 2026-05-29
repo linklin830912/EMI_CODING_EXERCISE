@@ -1,11 +1,10 @@
 import { MilestoneButton, MilestoneButtonColorsType } from "@/components/MilestoneButton/MilestoneButton";
 import styles from "./MilestoneSection.module.css";
-import { useState } from "react";
-import { AnnotationEntry, MilestoneKind } from "@/lib/types";
+import {  MilestoneKind, RepairEventProfile } from "@/lib/types";
 import { useStore } from "@/store/RepairEventStore";
 import { getTimeStamp } from "@/util/getTimeStamp";
 
-const MILESTONE_BUTTONS_SEQUENCE: readonly { title: string, color: MilestoneButtonColorsType, kind: MilestoneKind }[] = [
+export const MILESTONE_BUTTONS_SEQUENCE: readonly { title: string, color: MilestoneButtonColorsType, kind: MilestoneKind }[] = [
   { title: 'Start Breakdown', color: 'red', kind: 'StartBreakdown' },
   { title: 'Arrived At Machine', color: 'orange', kind: 'ArrivedAtMachine' },
   { title: 'Problem Identified', color: 'gold', kind: 'ProblemIdentified' },
@@ -14,39 +13,29 @@ const MILESTONE_BUTTONS_SEQUENCE: readonly { title: string, color: MilestoneButt
   { title: 'Return To Service', color: 'green', kind: 'ReturnToService' },
 ] as const;
 
-type RepairEventStage = {
-  registeredBy: string;
-  milestone: MilestoneKind;
-  timestamp: string;
-  completed: boolean;
-  annotationEntries: AnnotationEntry[]
-};
 type MilestoneSectionProps = {
+  repairEventProfile: RepairEventProfile;
+  setRepairEventProfile: React.Dispatch<React.SetStateAction<RepairEventProfile>>;
   registeredBy: string;
   setOngoingMilestone: React.Dispatch<React.SetStateAction<MilestoneKind | null>>;
 }
 export function MilestoneSection(props: MilestoneSectionProps) {
   const { state, dispatch } = useStore();
-  const [currentStep, setCurrentStep] = useState(0);
-  const [repairEventProfile, setRepairEventProfile] = useState<RepairEventStage[]>(
-    () =>
-      MILESTONE_BUTTONS_SEQUENCE.map(seq => ({
-        registeredBy: props.registeredBy,
-        milestone: seq.kind,
-        timestamp: "",
-        completed: false,
-        annotationEntries: [],
-      }))
-  );  
   
   const handleMilestoneClick = (index: number) => {
-    const updated = repairEventProfile.map((stage, i) => {
-    if (i !== index) return stage;
+    const updated = props.repairEventProfile?.stages.map((stage, i) => {
+    if (i !== index || !state.activeStartTime) return stage;
 
       return {
         ...stage,
         timestamp: getTimeStamp(state.activeStartTime ?? Date.now()),
         completed: true,
+        entries: [...stage.entries, {
+          type: "milestone",
+          kind: MILESTONE_BUTTONS_SEQUENCE[index]!.kind,
+          at: getTimeStamp(state.activeStartTime),
+          by: props.registeredBy
+        }]
       };
     });
 
@@ -60,8 +49,10 @@ export function MilestoneSection(props: MilestoneSectionProps) {
       }
     });
 
-    setRepairEventProfile(updated);
-    setCurrentStep(prev => prev + 1);
+    props.setRepairEventProfile({
+      step: props.repairEventProfile.step + 1,
+      stages: updated as RepairEventProfile["stages"]
+    });
     props.setOngoingMilestone(index < MILESTONE_BUTTONS_SEQUENCE.length - 1 ? MILESTONE_BUTTONS_SEQUENCE[index]!.kind : null);
   };
   
@@ -76,18 +67,18 @@ export function MilestoneSection(props: MilestoneSectionProps) {
             number={index + 1}
             label={milestone.title}
             colour={milestone.color}
-            completed={index < currentStep}
-            disabled={index >= currentStep + 1}
+            completed={index < props.repairEventProfile.step}
+            disabled={index >= props.repairEventProfile.step + 1}
             onClick={() => {
               handleMilestoneClick(index)
             }}
           />
-          {repairEventProfile[index]?.completed && <div className={styles.text}>
+          {props.repairEventProfile && props.repairEventProfile.stages[index]?.completed && <div className={styles.text}>
             <div className={styles.completedText}>
-              {repairEventProfile[index]?.timestamp}
+              {props.repairEventProfile.stages[index]?.timestamp}
             </div>
             <div className={styles.completedText}>
-              {repairEventProfile[index]?.registeredBy}
+              {props.repairEventProfile.stages[index]?.registeredBy}
             </div>
           </div>}
         </div>)}

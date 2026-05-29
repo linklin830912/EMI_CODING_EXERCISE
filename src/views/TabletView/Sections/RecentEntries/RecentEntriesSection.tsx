@@ -1,9 +1,19 @@
 import { useStore } from "@/store/RepairEventStore";
 import styles from "./RecentEntries.module.css";
-import { AnnotationEntry } from "@/lib/types";
+import { AnnotationEntry, RepairEventProfile } from "@/lib/types";
+import { useMemo } from "react";
 
-export function RecentEntriesSection() {
-    const { state } = useStore();
+type RecentEntriesSectionProps = {
+    repairEventProfile: RepairEventProfile;
+};
+export function RecentEntriesSection(props: RecentEntriesSectionProps) {
+
+const annotationEntries = useMemo<AnnotationEntry[]>(() => {
+    return props.repairEventProfile?.stages
+        ?.flatMap(stage => stage.entries)
+        .filter(entry => entry.type === "annotation") as AnnotationEntry[];
+  }, [props.repairEventProfile]);
+
   return (
     <section className={styles.section}>
       <h3 className={styles.title}>Recent entries</h3>
@@ -11,8 +21,7 @@ export function RecentEntriesSection() {
       <div className={styles.divider} />
 
       <div className={styles.list}>
-              {state.entries.filter((entry): entry is AnnotationEntry => entry.type === "annotation")
-                  .map((entry, i) => (
+              {annotationEntries.map((entry, i) => (
             <div key={i} className={styles.row}>
                 <div className={styles.time}>{entry.at}</div>
 

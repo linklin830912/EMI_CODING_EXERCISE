@@ -60,3 +60,16 @@ export const MILESTONE_SEQUENCE: readonly MilestoneKind[] = [
   'RepairComplete',
   'ReturnToService',
 ] as const;
+
+export type RepairEventStage = {
+  registeredBy: string;
+  milestone: MilestoneKind;
+  timestamp: string;
+  completed: boolean;
+  entries: Entry[]
+};
+
+export type RepairEventProfile = {
+  step: number;
+  stages: RepairEventStage[]
+};

@@ -1,6 +1,10 @@
 import styles from "./FooterSection.module.css";
 
-export function FooterSection() {
+type FooterSectionProps = {
+  isComplete: boolean;
+  handleStartNewRepair: () => void;
+}
+export function FooterSection(props: FooterSectionProps) {
   return (
     <footer className={styles.footer}>
       <div className={styles.left}>
@@ -13,7 +17,9 @@ export function FooterSection() {
         </button>
       </div>
 
-      <button disabled className={styles.primaryButton}>
+      <button disabled={!props.isComplete} className={styles.primaryButton}
+        onClick={() => props.handleStartNewRepair()}
+      >
         START A NEW REPAIR
       </button>
     </footer>

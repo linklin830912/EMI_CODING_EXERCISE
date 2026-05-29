@@ -1,13 +1,20 @@
 .footer {
   display: flex;
-  gap: 14px;
+  align-items: center;
+  justify-content: space-between;
 
   padding-top: 12px;
-
   border-top: 1px dashed var(--emi-light-grey);
 }
 
-.footer button {
+/* left group */
+.left {
+  display: flex;
+  gap: 14px;
+}
+
+/* shared secondary button style */
+.secondaryButton {
   border: 1px solid var(--emi-light-grey);
   background: var(--emi-light-grey);
 
@@ -24,6 +31,33 @@
   color: var(--emi-dark);
 
   opacity: 0.55;
+
+  cursor: not-allowed;
+}
+
+/* primary CTA (bigger, right aligned) */
+.primaryButton {
+  margin-left: auto;
+
+  border: 0;
+  border-radius: 7px;
+
+  padding: 16px 34px;
+
+  font-family: 'Roboto Condensed', sans-serif;
+  font-size: 15px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+
+  background: var(--emi-blue);
+  color: white;
+
+  cursor: pointer;
+}
+.primaryButton:disabled {
+  background: var(--emi-light-grey);
+  color: var(--emi-dark);
 
   cursor: not-allowed;
 }

@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import styles from "./AnnotationModal.module.css";
-import { AnnotationKind } from "@/lib/types";
+import { AnnotationKind, Entry } from "@/lib/types";
 import { useStore } from "@/store/RepairEventStore";
 import { getTimeStamp } from "@/util/getTimeStamp";
 
 type AnnotationModalProps = {
   open: boolean;
   kind: AnnotationKind;
-  user: string;
+    user: string;
+  onSave: (entry: Entry) => void;
   onClose: () => void;
 };
 
@@ -24,14 +25,17 @@ export function AnnotationModal(props: AnnotationModalProps) {
   const handleSave = () => {
     if (!text.trim() || !state.activeStartTime) return;
 
+      const payload ={
+            type: "annotation",
+            text: text.trim(),
+            kind: props.kind,
+            at: getTimeStamp(state.activeStartTime),
+            by: props.user
+      } as Entry;
+      props.onSave(payload);
       dispatch({
         type: "SAVE_ENTRY",
-        payload: {
-        type: "annotation",
-        text: text.trim(),
-        kind: props.kind,
-        at: getTimeStamp(state.activeStartTime),
-        by: props.user,}
+        payload
       });
 
     props.onClose();
