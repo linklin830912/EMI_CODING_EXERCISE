@@ -37,3 +37,8 @@
 
   color: var(--emi-green);
 }
+.text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

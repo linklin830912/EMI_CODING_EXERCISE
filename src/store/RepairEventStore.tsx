@@ -1,3 +1,4 @@
+import { Entry } from "@/lib/types";
 import React, { createContext, useContext, useReducer } from "react";
 
 type Event = {
@@ -6,7 +7,7 @@ type Event = {
 };
 
 type State = {
-    events: Event[];
+    entries: Entry[];
     activeStartTime: number | null;
 };
 
@@ -15,7 +16,13 @@ type SetStartTimeAction = {
   payload: number;
 };
 
-type Action = SetStartTimeAction;
+type SaveEntryAction = {
+  type: "SAVE_ENTRY";
+  payload: Entry;
+};
+
+
+type Action = SetStartTimeAction | SaveEntryAction;
 
 function setStartTime(state: State, action: { payload: number }): State {
   return {
@@ -24,10 +31,20 @@ function setStartTime(state: State, action: { payload: number }): State {
   };
 }
 
+function saveEntry(state: State, action: { payload: Entry }): State {
+    const { payload } = action;
+    if (!state.activeStartTime) return state;
+    return {
+        ...state,
+        entries: [...state.entries, payload],
+    };
+}
+
 /* -------------------- reducer map -------------------- */
 
 const reducers = {
     SET_START_TIME: setStartTime,
+    SAVE_ENTRY: saveEntry,
 } as const;
 
 /* -------------------- main reducer -------------------- */
@@ -48,7 +65,7 @@ const StoreContext = createContext<{
 } | null>(null);
 
 const initialState: State = {
-  events: [],
+  entries:[],
   activeStartTime: null,
 };
 

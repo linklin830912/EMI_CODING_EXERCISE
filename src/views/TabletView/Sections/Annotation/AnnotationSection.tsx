@@ -1,23 +1,43 @@
+import { AnnotationKind, MilestoneKind } from "@/lib/types";
 import styles from "./AnnotationSection.module.css";
+import { AnnotationModal } from "./AnnotationModal";
+import { useState } from "react";
 
-export function AnnotationSection() {
+const ANNOTATION_BUTTONS: readonly { title: string, kind: AnnotationKind }[] = [
+  { title: 'Findings', kind: 'Finding' },
+  { title: 'Actions', kind: 'Action' },
+  { title: 'Parts', kind: 'Part' },
+  { title: 'Notes', kind: 'Note' },
+] as const;
+
+type AnnotationSectionProps = {
+    ongoingMilestone: MilestoneKind | null;
+};
+export function AnnotationSection(props: AnnotationSectionProps) {
+  const [annotationKind, setAnnotationKind] = useState<AnnotationKind | null>(null);
+
+  const handleOpenModal = (kind: AnnotationKind) => {
+    setAnnotationKind(kind);
+  };
+
   return (
     <section className={styles.section}>
-      <h3 className={styles.heading}>
-        Between milestones
-      </h3>
 
-      <div className={styles.actions}>
-        <button disabled>Add Finding</button>
-        <button disabled>Add Action</button>
-        <button disabled>Add Part</button>
-        <button disabled>Add Note</button>
+      <h3 className={styles.heading}>Annotations</h3>
+
+      <div className={styles.actions}>{ANNOTATION_BUTTONS.map((btn) => (
+        <button key={btn.title} disabled={!props.ongoingMilestone}
+          onClick={() => handleOpenModal(btn.kind)}>
+          Add {btn.kind}s
+        </button>
+      ))}
       </div>
 
-      <p className={styles.note}>
-        All annotation actions remain disabled
-        until the first milestone is recorded.
-      </p>
+      {annotationKind && (
+        <AnnotationModal open={true} kind={annotationKind} user="John Doe"
+          onClose={() => setAnnotationKind(null)} />
+      )}
+
     </section>
   );
 }

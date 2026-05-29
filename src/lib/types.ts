@@ -19,20 +19,24 @@ export type RepairStatus = 'Active' | 'Stopped' | 'Completed';
 
 export type ISODateString = string;
 
+export type MilestoneEntry = {
+  type: 'milestone';
+  kind: MilestoneKind;
+  at: ISODateString;
+  by: string;
+};
+
+export type AnnotationEntry = {
+  type: 'annotation';
+  kind: AnnotationKind;
+  at: ISODateString;
+  by: string;
+  text: string;
+};
+
 export type Entry =
-  | {
-      type: 'milestone';
-      kind: MilestoneKind;
-      at: ISODateString;
-      by: string;
-    }
-  | {
-      type: 'annotation';
-      kind: AnnotationKind;
-      at: ISODateString;
-      by: string;
-      text: string;
-    };
+  | MilestoneEntry
+  | AnnotationEntry;
 
 export type RepairEvent = {
   id: string;
@@ -56,5 +60,3 @@ export const MILESTONE_SEQUENCE: readonly MilestoneKind[] = [
   'RepairComplete',
   'ReturnToService',
 ] as const;
-
-export type TimeInfo = { totalSeconds: number, formattedTime: string }

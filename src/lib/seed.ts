@@ -74,3 +74,10 @@ export const SEED_EVENTS: RepairEvent[] = [
     ],
   },
 ];
+
+export const DEFAULT_REPAIR_EVENT_DATA = {
+  id: 'RE-240X',
+  asset: 'LIE R 9400 #0X',
+  system: 'K Patel',
+  registeredBy: 'Electrical'
+};
