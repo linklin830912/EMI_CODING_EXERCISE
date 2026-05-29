@@ -1,13 +1,9 @@
-import { Entry } from "@/lib/types";
+import { Entry, RepairEvent } from "@/lib/types";
 import React, { createContext, useContext, useReducer } from "react";
-
-type Event = {
-  id: string;
-  status: "active" | "completed";
-};
 
 type State = {
     entries: Entry[];
+    repairEvents: RepairEvent[];
     activeStartTime: number | null;
 };
 
@@ -16,13 +12,13 @@ type SetStartTimeAction = {
   payload: number;
 };
 
-type SaveEntryAction = {
-  type: "SAVE_ENTRY";
-  payload: Entry;
+type SaveRepairEventAction = {
+  type: "SAVE_REPAIR_EVENT";
+  payload: RepairEvent;
 };
 
 
-type Action = SetStartTimeAction | SaveEntryAction;
+type Action = SetStartTimeAction | SaveRepairEventAction;
 
 function setStartTime(state: State, action: { payload: number }): State {
   return {
@@ -31,12 +27,14 @@ function setStartTime(state: State, action: { payload: number }): State {
   };
 }
 
-function saveEntry(state: State, action: { payload: Entry }): State {
+function saveRepairEvent(state: State, action: { payload: RepairEvent }): State { 
     const { payload } = action;
-    if (!state.activeStartTime) return state;
     return {
         ...state,
-        entries: [...state.entries, payload],
+        repairEvents: [
+            ...state.repairEvents, 
+            payload
+        ],
     };
 }
 
@@ -44,7 +42,7 @@ function saveEntry(state: State, action: { payload: Entry }): State {
 
 const reducers = {
     SET_START_TIME: setStartTime,
-    SAVE_ENTRY: saveEntry,
+    SAVE_REPAIR_EVENT: saveRepairEvent,
 } as const;
 
 /* -------------------- main reducer -------------------- */
@@ -66,6 +64,7 @@ const StoreContext = createContext<{
 
 const initialState: State = {
   entries:[],
+  repairEvents: [],
   activeStartTime: null,
 };
 

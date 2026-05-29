@@ -9,7 +9,7 @@ export function createDefaultEvent(id: number, startTime: number): RepairEvent {
         asset: DEFAULT_REPAIR_EVENT_DATA.asset,
         system: DEFAULT_REPAIR_EVENT_DATA.system,
         registeredBy: DEFAULT_REPAIR_EVENT_DATA.registeredBy,
-        registeredAt: getTimeStamp(startTime),
+        registeredAt: { timestamp: getTimeStamp(startTime), time: startTime },
         status: 'Active',
         entries: [],
     };

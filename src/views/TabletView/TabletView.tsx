@@ -1,4 +1,4 @@
-import { MilestoneKind, RepairEvent, RepairEventProfile, RepairEventStage } from "@/lib/types";
+import { MilestoneKind, RepairEvent, RepairEventProfile } from "@/lib/types";
 import { AnnotationSection } from "./Sections/Annotation/AnnotationSection";
 import { FooterSection } from "./Sections/Footer/FooterSection";
 import { MILESTONE_BUTTONS_SEQUENCE, MilestoneSection } from "./Sections/Milestone/MilestoneSection";
@@ -14,7 +14,7 @@ const defaultRepairEventProfile = (registeredBy: string): RepairEventProfile => 
     stages: MILESTONE_BUTTONS_SEQUENCE.map(seq => ({
     registeredBy,
     milestone: seq.kind,
-    timestamp: "",
+    timestamp: {timestamp: "", time:0},
     completed: false,
     entries: [],
   }))}};
@@ -25,7 +25,7 @@ export function TabletView({ repairEvent }: TabletViewProps) {
     () => defaultRepairEventProfile(repairEvent.registeredBy)
   );
 
-  const handleStartNewRepair = () => {
+    const handleStartNewRepair = () => {
     setRepairEventProfile(defaultRepairEventProfile(repairEvent.registeredBy));
     setOngoingMilestone(null);
   };
@@ -34,7 +34,7 @@ export function TabletView({ repairEvent }: TabletViewProps) {
     <div className={styles.container}>
       <RepairInfoSection repairEvent={repairEvent} />
       <MilestoneSection
-        registeredBy={repairEvent.registeredBy}
+        repairEvent={repairEvent}
         setOngoingMilestone={setOngoingMilestone}
         repairEventProfile={repairEventProfile}
         setRepairEventProfile={setRepairEventProfile}

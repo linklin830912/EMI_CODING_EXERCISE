@@ -9,11 +9,11 @@ import type { RepairEvent } from './types';
  * to now if you'd rather.
  */
 
-const yesterday = (hours: number, minutes: number): string => {
+const yesterday = (hours: number, minutes: number): { timestamp: string, time: number } => {
   const d = new Date();
   d.setDate(d.getDate() - 1);
   d.setHours(hours, minutes, 0, 0);
-  return d.toISOString();
+  return { timestamp: d.toISOString(), time: d.getTime() };
 };
 
 export const SEED_EVENTS: RepairEvent[] = [

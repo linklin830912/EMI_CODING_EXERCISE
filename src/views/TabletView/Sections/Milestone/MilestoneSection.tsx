@@ -1,6 +1,6 @@
 import { MilestoneButton, MilestoneButtonColorsType } from "@/components/MilestoneButton/MilestoneButton";
 import styles from "./MilestoneSection.module.css";
-import {  MilestoneKind, RepairEventProfile } from "@/lib/types";
+import {  MilestoneKind, RepairEvent, RepairEventProfile, RepairEventStage } from "@/lib/types";
 import { useStore } from "@/store/RepairEventStore";
 import { getTimeStamp } from "@/util/getTimeStamp";
 
@@ -16,37 +16,27 @@ export const MILESTONE_BUTTONS_SEQUENCE: readonly { title: string, color: Milest
 type MilestoneSectionProps = {
   repairEventProfile: RepairEventProfile;
   setRepairEventProfile: React.Dispatch<React.SetStateAction<RepairEventProfile>>;
-  registeredBy: string;
+  repairEvent: RepairEvent;
   setOngoingMilestone: React.Dispatch<React.SetStateAction<MilestoneKind | null>>;
 }
 export function MilestoneSection(props: MilestoneSectionProps) {
   const { state, dispatch } = useStore();
   
   const handleMilestoneClick = (index: number) => {
-    const updated = props.repairEventProfile?.stages.map((stage, i) => {
+    const updated: RepairEventStage[] = props.repairEventProfile?.stages.map((stage, i) => {
     if (i !== index || !state.activeStartTime) return stage;
 
       return {
         ...stage,
-        timestamp: getTimeStamp(state.activeStartTime ?? Date.now()),
+        at: {timestamp: getTimeStamp(state.activeStartTime), time: state.activeStartTime},
         completed: true,
         entries: [...stage.entries, {
           type: "milestone",
           kind: MILESTONE_BUTTONS_SEQUENCE[index]!.kind,
-          at: getTimeStamp(state.activeStartTime),
-          by: props.registeredBy
+          at: { timestamp: getTimeStamp(state.activeStartTime), time: state.activeStartTime },
+          by: props.repairEvent.registeredBy
         }]
       };
-    });
-
-    dispatch({
-      type: "SAVE_ENTRY",
-      payload: {
-        type: "milestone",
-        kind: MILESTONE_BUTTONS_SEQUENCE[index]!.kind,
-        at: getTimeStamp(state.activeStartTime!),
-        by: props.registeredBy
-      }
     });
 
     props.setRepairEventProfile({
@@ -54,6 +44,21 @@ export function MilestoneSection(props: MilestoneSectionProps) {
       stages: updated as RepairEventProfile["stages"]
     });
     props.setOngoingMilestone(index < MILESTONE_BUTTONS_SEQUENCE.length - 1 ? MILESTONE_BUTTONS_SEQUENCE[index]!.kind : null);
+    
+    if (props.repairEventProfile.step === MILESTONE_BUTTONS_SEQUENCE.length - 1) {
+      dispatch({
+      type: "SAVE_REPAIR_EVENT",
+      payload: {
+        id: props.repairEvent.id,
+        asset: props.repairEvent.asset,
+        system: props.repairEvent.system,
+        registeredBy: props.repairEvent.registeredBy,
+        status: "Completed",
+        registeredAt: props.repairEventProfile.stages[0]?.at,
+        entries: []
+      } as RepairEvent
+    }); 
+    }    
   };
   
   return (
@@ -75,7 +80,7 @@ export function MilestoneSection(props: MilestoneSectionProps) {
           />
           {props.repairEventProfile && props.repairEventProfile.stages[index]?.completed && <div className={styles.text}>
             <div className={styles.completedText}>
-              {props.repairEventProfile.stages[index]?.timestamp}
+              {props.repairEventProfile.stages[index]?.at.timestamp}
             </div>
             <div className={styles.completedText}>
               {props.repairEventProfile.stages[index]?.registeredBy}

@@ -29,15 +29,11 @@ export function AnnotationModal(props: AnnotationModalProps) {
             type: "annotation",
             text: text.trim(),
             kind: props.kind,
-            at: getTimeStamp(state.activeStartTime),
+            at: { timestamp: getTimeStamp(state.activeStartTime), time: state.activeStartTime },
             by: props.user
       } as Entry;
       props.onSave(payload);
-      dispatch({
-        type: "SAVE_ENTRY",
-        payload
-      });
-
+      
     props.onClose();
   };
 

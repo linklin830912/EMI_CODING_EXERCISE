@@ -17,7 +17,7 @@ export type AnnotationKind = 'Finding' | 'Action' | 'Part' | 'Note';
 
 export type RepairStatus = 'Active' | 'Stopped' | 'Completed';
 
-export type ISODateString = string;
+export type ISODateString = { timestamp: string, time: number };
 
 export type MilestoneEntry = {
   type: 'milestone';
@@ -64,7 +64,7 @@ export const MILESTONE_SEQUENCE: readonly MilestoneKind[] = [
 export type RepairEventStage = {
   registeredBy: string;
   milestone: MilestoneKind;
-  timestamp: string;
+  at: ISODateString;
   completed: boolean;
   entries: Entry[]
 };

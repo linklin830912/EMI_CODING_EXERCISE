@@ -23,7 +23,7 @@ const annotationEntries = useMemo<AnnotationEntry[]>(() => {
       <div className={styles.list}>
               {annotationEntries.map((entry, i) => (
             <div key={i} className={styles.row}>
-                <div className={styles.time}>{entry.at}</div>
+                <div className={styles.time}>{entry.at.timestamp}</div>
 
                 <div className={styles.type}>{entry.kind}</div>
 
