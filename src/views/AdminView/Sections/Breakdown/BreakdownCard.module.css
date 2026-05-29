@@ -46,20 +46,24 @@
 }
 
 /* STATUS */
-.status,
-.statusStopped {
+.status {
   margin-top: 4px;
   font-size: 13px;
   font-weight: 700;
+  color: var(--emi-green);
   text-transform: uppercase;
 }
 
-.status {
-  color: var(--emi-green);
+.active {
+  color: var(--emi-gold);
 }
 
-.statusStopped {
+.stopped {
   color: var(--emi-red);
+}
+
+.completed {
+  color: var(--emi-green);
 }
 
 .meta {

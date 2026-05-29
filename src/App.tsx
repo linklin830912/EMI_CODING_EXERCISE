@@ -4,13 +4,23 @@ import { Header } from "./header/Header";
 import { TabletView } from "./views/TabletView/TabletView";
 import { AdminView } from "./views/AdminView/AdminView";
 import { useStore } from "./store/RepairEventStore";
+import { createDefaultEvent } from "./util/createDefaultEvent";
+import { defaultRepairEventProfile, RepairEvent } from "./lib/types";
 
 export function App() {
   const [mode, setMode] = useState<"tablet" | "admin">("tablet");
+  const [activeRepairEvent, setActiveRepairEvent] = useState<RepairEvent>();
 
   const { state, dispatch } = useStore();
 
-  const activeRepairEvent = state.repairEvents[0];
+  useEffect(() => {
+    const repairEvent = createDefaultEvent(state.repairEvents.length, Date.now());
+    setActiveRepairEvent(repairEvent);
+    dispatch({
+        type: "SET_CURRENT_REPAIR_PROFILE",
+        payload: defaultRepairEventProfile(repairEvent.registeredBy)
+      });
+  }, [])
 
   useEffect(() => {
     dispatch({
@@ -27,11 +37,9 @@ export function App() {
     <div className={styles.app} data-mode={mode}>
       <Header mode={mode} onToggle={toggleMode} />
 
-      {mode === "tablet" && activeRepairEvent && (
-        <TabletView repairEvent={activeRepairEvent} />
-      )}
+      {mode === "tablet" && activeRepairEvent && <TabletView repairEvent={activeRepairEvent} />}
 
-      {mode === "admin" && <AdminView />}
+      {mode === "admin" && activeRepairEvent && <AdminView repairEvent={activeRepairEvent}/>}
     </div>
   );
 }

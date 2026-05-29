@@ -13,13 +13,6 @@ type TabletViewProps = { repairEvent: RepairEvent };
 export function TabletView({ repairEvent }: TabletViewProps) {
   const [ongoingMilestone, setOngoingMilestone] = useState<MilestoneKind | null>(null);  
   const {state, dispatch} = useStore();
-
-  useEffect(() => {
-    dispatch({
-        type: "SET_CURRENT_REPAIR_PROFILE",
-        payload: defaultRepairEventProfile(repairEvent.registeredBy)
-      });
-  }, [])
   
   const handleStartNewRepair = () => {
       dispatch({

@@ -3,6 +3,7 @@ import styles from "./MilestoneSection.module.css";
 import {  MILESTONE_BUTTONS_SEQUENCE, MilestoneKind, RepairEvent, RepairEventProfile, RepairEventStage } from "@/lib/types";
 import { useStore } from "@/store/RepairEventStore";
 import { getTimeStamp } from "@/util/getTimeStamp";
+import { convertRepairEventProfileToEvent } from "@/util/convertRepairEventProfileToEvent";
 
 type MilestoneSectionProps = {
   repairEvent: RepairEvent;
@@ -14,15 +15,14 @@ export function MilestoneSection(props: MilestoneSectionProps) {
   const handleMilestoneClick = (index: number) => {
     const updated: RepairEventStage[] = state.currentRepairEventProfile?.stages.map((stage, i) => {
     if (i !== index || !state.activeStartTime) return stage;
-
       return {
         ...stage,
-        at: {timestamp: getTimeStamp(state.activeStartTime), time: state.activeStartTime},
+        at: getTimeStamp(state.activeStartTime),
         completed: true,
         entries: [...stage.entries, {
           type: "milestone",
           kind: MILESTONE_BUTTONS_SEQUENCE[index]!.kind,
-          at: { timestamp: getTimeStamp(state.activeStartTime), time: state.activeStartTime },
+          at: getTimeStamp(state.activeStartTime),
           by: props.repairEvent.registeredBy
         }]
       };
@@ -39,17 +39,10 @@ export function MilestoneSection(props: MilestoneSectionProps) {
     props.setOngoingMilestone(index < MILESTONE_BUTTONS_SEQUENCE.length - 1 ? MILESTONE_BUTTONS_SEQUENCE[index]!.kind : null);
     
     if (state.currentRepairEventProfile.step === MILESTONE_BUTTONS_SEQUENCE.length - 1) {
+      
       dispatch({
       type: "SAVE_REPAIR_EVENT",
-      payload: {
-        id: props.repairEvent.id,
-        asset: props.repairEvent.asset,
-        system: props.repairEvent.system,
-        registeredBy: props.repairEvent.registeredBy,
-        status: "Completed",
-        registeredAt: state.currentRepairEventProfile.stages[0]?.at,
-        entries: []
-      } as RepairEvent
+      payload: convertRepairEventProfileToEvent(state.currentRepairEventProfile, props.repairEvent, "Completed")
     }); 
     }    
   };
@@ -73,7 +66,7 @@ export function MilestoneSection(props: MilestoneSectionProps) {
           />
           {state.currentRepairEventProfile && state.currentRepairEventProfile.stages[index]?.completed && <div className={styles.text}>
             <div className={styles.completedText}>
-              {state.currentRepairEventProfile.stages[index]?.at.timestamp}
+              {state.currentRepairEventProfile.stages[index].at.timestamp}
             </div>
             <div className={styles.completedText}>
               {state.currentRepairEventProfile.stages[index]?.registeredBy}

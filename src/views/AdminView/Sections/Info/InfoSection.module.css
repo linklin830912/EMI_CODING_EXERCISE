@@ -40,6 +40,18 @@
   letter-spacing: 0.06em;
 }
 
+.active {
+  background: var(--emi-gold);
+}
+
+.stopped {
+  background: var(--emi-red);
+}
+
+.completed {
+  background: var(--emi-green);
+}
+
 /* SUBTEXT */
 .subtext {
   margin: 0;

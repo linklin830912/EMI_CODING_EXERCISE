@@ -39,9 +39,9 @@ export function BreakdownCard({
         {repairEvent.system}
       </div>
 
-      <div className={styles.status}>
+      <div className={`${styles.status} ${ styles[repairEvent.status.toLowerCase()] }`}>
         {repairEvent.status}
-      </div>
+        </div>
 
       <div className={styles.meta}>
         {timeText}

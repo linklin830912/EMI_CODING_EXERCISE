@@ -14,7 +14,7 @@ type AnnotationModalProps = {
 
 export function AnnotationModal(props: AnnotationModalProps) {
     const [text, setText] = useState("");
-    const { state, dispatch } = useStore();
+    const { state } = useStore();
 
   useEffect(() => {
     if (props.open) setText("");
@@ -29,7 +29,7 @@ export function AnnotationModal(props: AnnotationModalProps) {
             type: "annotation",
             text: text.trim(),
             kind: props.kind,
-            at: { timestamp: getTimeStamp(state.activeStartTime), time: state.activeStartTime },
+            at: getTimeStamp(state.activeStartTime),
             by: props.user
       } as Entry;
       props.onSave(payload);

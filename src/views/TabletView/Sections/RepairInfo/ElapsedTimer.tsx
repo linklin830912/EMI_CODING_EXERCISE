@@ -13,7 +13,7 @@ export function ElapsedTimer() {
 
       const formattedTime = getTimeStamp(state.activeStartTime);
 
-      setElapsed(formattedTime);
+      setElapsed(formattedTime.timestamp);
     }, 1000);
 
     return () => clearInterval(interval);

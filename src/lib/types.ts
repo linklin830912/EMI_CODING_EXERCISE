@@ -107,4 +107,6 @@ export const defaultRepairEventProfile = (registeredBy: string): RepairEventProf
     at: {timestamp: "", time:0},
     completed: false,
     entries: [],
-  }))}};
+    }))
+}
+};
