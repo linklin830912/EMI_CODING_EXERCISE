@@ -1,53 +1,82 @@
 # EMI Coding Exercise
 
-Welcome. This is the starter repo for the EMI junior developer coding exercise.
-
-## First: don't fork - use the template
-
-Click the green **Use this template** button at the top of the GitHub page, then **Create a new repository**. This gives you a clean repo of your own, with no link back to ours.
-
-![Use this template -> Create a new repository](./.github/use-this-template.png)
-
-Once that's done, clone your new repo locally and carry on.
-
-## Start here
-
-1. Read **[`BRIEF.md`](./BRIEF.md)** - what to build, what we'll judge, what to deliver.
-2. Look in **[`design-reference/`](./design-reference/)** - layout wireframes (`mockup.md`) and brand reference (`design-system.html`, open in a browser).
-
-## Run it
+## How to Run
 
 ```bash
 npm install
 npm run dev
 ```
+---
 
-You'll get a blank page with the words "Build me". That's the starting point.
+# Trade-offs
 
-## What's already wired up
+## 1. `RepairEventProfile` data structure for active RepairEvent
 
-- **Vite + React 19 + TypeScript** in strict mode.
-- **Roboto** preconnected and linked in `index.html` (use it; the brand requires it).
-- **`src/lib/types.ts`** - domain types for the Repair Event (extend or replace as you like).
-- **`src/lib/seed.ts`** - sample data so the admin view has something to render from the start.
-- **`src/lib/storage.ts`** - optional `localStorage` helper. Use it if you want persistence.
+### Context
 
-The styling is up to you. The brand palette, type weights, and component specs are in `design-reference/design-system.html` - read it, then bring the palette and type in however you like.
+For active RepairEvent, I introduced a separate `RepairEventProfile` structure with field:
 
-## What you'll add
+```ts
+stages: RepairEventStage[]
+```
 
-The brief tells you the full scope. In rough order of priority:
+Each stage stores milestone-specific entries and state.
 
-- A tablet view: six milestone buttons + add-annotation buttons + a modal.
-- An admin view: timeline + auto-calculated metrics.
-- A header toggle to swap between them.
+### Pros
 
-## Time
+* Keeps milestone-related state grouped together
+* Makes stage transitions explicit in the data structure
 
-Around 2 hours of focused work. Don't grind it for a weekend.
+### Cons
 
-## Questions
+* To support flat chronological timeline in admin view, the current implementation converts the staged structure into a flat `RepairEvent.entries` array through `convertRepairEventProfileToEvent`, additional transformation layer between active and completed events
 
-If something's unclear, make a sensible call and note it in your README when you submit. We'd rather see your judgement than a clarifying email.
 
-Good luck.
+---
+
+## 2. `RepairEventStore` state management structure
+
+### Context
+
+The store currently manages:
+
+* the current timestamp from `ElapsedTimer`
+* completed `RepairEvent[]`
+* the active `RepairEventProfile`
+
+### Pros
+
+* Immutable updates are handled through shallow copying, which works well for the current object depth
+* Separating the active repair from completed repairs simplified the tablet view implementation
+
+### Cons
+
+* As the application grows, nested updates may complicated
+* The distinction between `RepairEvent` and `RepairEventProfile` could introduce duplication or synchronization complexity
+
+---
+
+## 3. Centralised constant configuration
+
+### Context
+
+Constants such as:
+
+* metric thresholds (`GOOD_METRIC`, `MID_METRIC`)
+* milestone labels
+* button styles
+* colour mappings
+
+are currently stored centrally in `types.ts`.
+
+### Pros
+
+* Keeps components relatively small and focused
+* Avoids duplicated hardcoded values across the UI
+* Makes milestone configuration easier to update in one place
+
+### Cons
+
+* Domain logic and presentation concerns currently live in the same layer
+* Styling-related constants would be better separated into a theme or design token system
+* Metric thresholds may eventually belong in a configurable business-rules layer rather than static constants
