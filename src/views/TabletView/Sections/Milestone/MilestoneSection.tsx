@@ -1,17 +1,8 @@
-import { MilestoneButton, MilestoneButtonColorsType } from "@/components/MilestoneButton/MilestoneButton";
+import { MilestoneButton } from "@/components/MilestoneButton/MilestoneButton";
 import styles from "./MilestoneSection.module.css";
-import {  MilestoneKind, RepairEvent, RepairEventProfile, RepairEventStage } from "@/lib/types";
+import {  MILESTONE_BUTTONS_SEQUENCE, MilestoneKind, RepairEvent, RepairEventProfile, RepairEventStage } from "@/lib/types";
 import { useStore } from "@/store/RepairEventStore";
 import { getTimeStamp } from "@/util/getTimeStamp";
-
-export const MILESTONE_BUTTONS_SEQUENCE: readonly { title: string, color: MilestoneButtonColorsType, kind: MilestoneKind }[] = [
-  { title: 'Start Breakdown', color: 'red', kind: 'StartBreakdown' },
-  { title: 'Arrived At Machine', color: 'orange', kind: 'ArrivedAtMachine' },
-  { title: 'Problem Identified', color: 'gold', kind: 'ProblemIdentified' },
-  { title: 'Start Repair', color: 'orange', kind: 'StartRepair' },
-  { title: 'Repair Complete', color: 'green', kind: 'RepairComplete' },
-  { title: 'Return To Service', color: 'green', kind: 'ReturnToService' },
-] as const;
 
 type MilestoneSectionProps = {
   repairEventProfile: RepairEventProfile;

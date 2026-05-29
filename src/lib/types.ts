@@ -61,6 +61,15 @@ export const MILESTONE_SEQUENCE: readonly MilestoneKind[] = [
   'ReturnToService',
 ] as const;
 
+export const MILESTONE_BUTTONS_SEQUENCE: readonly { title: string, color: MilestoneButtonColorsType, kind: MilestoneKind }[] = [
+  { title: 'Start Breakdown', color: 'red', kind: 'StartBreakdown' },
+  { title: 'Arrived At Machine', color: 'orange', kind: 'ArrivedAtMachine' },
+  { title: 'Problem Identified', color: 'gold', kind: 'ProblemIdentified' },
+  { title: 'Start Repair', color: 'orange', kind: 'StartRepair' },
+  { title: 'Repair Complete', color: 'green', kind: 'RepairComplete' },
+  { title: 'Return To Service', color: 'green', kind: 'ReturnToService' },
+] as const;
+
 export type RepairEventStage = {
   registeredBy: string;
   milestone: MilestoneKind;

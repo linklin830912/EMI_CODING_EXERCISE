@@ -1,7 +1,7 @@
-import { MilestoneKind, RepairEvent, RepairEventProfile } from "@/lib/types";
+import { MILESTONE_BUTTONS_SEQUENCE, MilestoneKind, RepairEvent, RepairEventProfile } from "@/lib/types";
 import { AnnotationSection } from "./Sections/Annotation/AnnotationSection";
 import { FooterSection } from "./Sections/Footer/FooterSection";
-import { MILESTONE_BUTTONS_SEQUENCE, MilestoneSection } from "./Sections/Milestone/MilestoneSection";
+import { MilestoneSection } from "./Sections/Milestone/MilestoneSection";
 import { RecentEntriesSection } from "./Sections/RecentEntries/RecentEntriesSection";
 import { RepairInfoSection } from "./Sections/RepairInfo/RepairInfoSection";
 import styles from "./TabletView.module.css";
@@ -14,7 +14,7 @@ const defaultRepairEventProfile = (registeredBy: string): RepairEventProfile => 
     stages: MILESTONE_BUTTONS_SEQUENCE.map(seq => ({
     registeredBy,
     milestone: seq.kind,
-    timestamp: {timestamp: "", time:0},
+    at: {timestamp: "", time:0},
     completed: false,
     entries: [],
   }))}};
