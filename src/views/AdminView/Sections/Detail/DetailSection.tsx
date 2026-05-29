@@ -1,10 +1,16 @@
+import { RepairEvent } from "@/lib/types";
 import styles from "./DetailSection.module.css";
 import { AutoCalcPanel } from "./Panel/AutoCalc/AutoCalcPanel";
 import { TimelinePanel } from "./Panel/Timeline/TimelinePanel";
-export function DetailSection() { 
+
+type DetailSectionProps = {
+      repairEvent: RepairEvent;
+}
+  
+export function DetailSection(props: DetailSectionProps) { 
     return <section className={styles.detail}>
-        <TimelinePanel />
+        <TimelinePanel repairEvent={props.repairEvent } />
         
-        <AutoCalcPanel />
+        <AutoCalcPanel repairEvent={props.repairEvent }/>
       </section >;
 }

@@ -1,13 +1,14 @@
+import { RepairEvent } from "@/lib/types";
 import styles from "./InfoSection.module.css";
-export function InfoSection() { 
+type InfoSectionProps = {
+    repairEvent: RepairEvent;
+}
+
+export function InfoSection(props: InfoSectionProps) { 
     return <section className={styles.info}>
         <div className={styles.infoHeader}>
-            <h2>CAT 793F #12 - Hydraulic</h2>
-            <span className={styles.badge}>COMPLETED</span>
+            <h2>{props.repairEvent.asset} - {props.repairEvent.system}</h2>
+            <span className={styles.badge}>{props.repairEvent.status}</span>
         </div>
-
-        <p className={styles.subtext}>
-            Auto-generated from milestone taps. No technician typing required.
-        </p>
     </section>;
 }

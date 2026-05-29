@@ -64,9 +64,15 @@
 }
 
 .ok {
-  color: var(--emi-orange);
+  color: var(--emi-gold);
 }
 
 .bad {
   color: var(--emi-red);
+}
+.undone {
+  color: var(--emi-grey);
+}
+.total {
+  color: var(--emi-off-white);
 }

@@ -71,6 +71,21 @@ export const MILESTONE_BUTTONS_SEQUENCE: readonly { title: string, color: Milest
   { title: 'Return To Service', color: 'green', kind: 'ReturnToService' },
 ] as const;
 
+export const MILESTONE_TITLE_BY_KIND: Record<
+  MilestoneKind | AnnotationKind,
+  string
+> = {
+  ...MILESTONE_BUTTONS_SEQUENCE.reduce((acc, item) => {
+    acc[item.kind] = item.title;
+    return acc;
+  }, {} as Record<MilestoneKind, string>),
+
+  Finding: "Finding",
+  Action: "Action",
+  Part: "Part",
+  Note: "Note",
+};
+
 export type RepairEventStage = {
   registeredBy: string;
   milestone: MilestoneKind;

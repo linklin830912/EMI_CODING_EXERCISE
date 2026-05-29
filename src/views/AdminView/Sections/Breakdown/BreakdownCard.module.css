@@ -1,0 +1,69 @@
+.card,
+.cardSelected {
+    max-width:200px;
+  flex: 1;            /* all cards equal width */
+  min-width: 0;       /* important for flex overflow handling */
+
+  padding: 14px;
+
+  border-radius: 6px;
+
+  cursor: pointer;
+
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  transition: background 120ms ease, border 120ms ease;
+}
+
+/* BASE */
+.card {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+/* SELECTED */
+.cardSelected {
+  border: 2px solid var(--emi-gold);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+/* TEXT LAYOUT */
+.id {
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.machine {
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.type {
+  opacity: 0.7;
+  font-size: 13px;
+}
+
+/* STATUS */
+.status,
+.statusStopped {
+  margin-top: 4px;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.status {
+  color: var(--emi-green);
+}
+
+.statusStopped {
+  color: var(--emi-red);
+}
+
+.meta {
+  margin-top: 4px;
+  font-size: 12px;
+  opacity: 0.6;
+}
