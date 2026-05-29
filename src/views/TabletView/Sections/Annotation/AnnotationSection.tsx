@@ -1,7 +1,8 @@
-import { AnnotationKind, MilestoneKind, RepairEventProfile } from "@/lib/types";
+import { AnnotationKind, Entry, MilestoneKind, RepairEventProfile } from "@/lib/types";
 import styles from "./AnnotationSection.module.css";
 import { AnnotationModal } from "./AnnotationModal";
 import { useState } from "react";
+import { useStore } from "@/store/RepairEventStore";
 
 const ANNOTATION_BUTTONS: readonly { title: string, kind: AnnotationKind }[] = [
   { title: 'Findings', kind: 'Finding' },
@@ -11,17 +12,35 @@ const ANNOTATION_BUTTONS: readonly { title: string, kind: AnnotationKind }[] = [
 ] as const;
 
 type AnnotationSectionProps = {
-    repairEventProfile: RepairEventProfile;
-    setRepairEventProfile: React.Dispatch<React.SetStateAction<RepairEventProfile>>;
+    // repairEventProfile: RepairEventProfile;
+    // setRepairEventProfile: React.Dispatch<React.SetStateAction<RepairEventProfile>>;
     registeredBy: string;
     ongoingMilestone: MilestoneKind | null;
 };
 export function AnnotationSection(props: AnnotationSectionProps) {
+  const { state, dispatch } = useStore();
   const [annotationKind, setAnnotationKind] = useState<AnnotationKind | null>(null);
 
   const handleOpenModal = (kind: AnnotationKind) => {
     setAnnotationKind(kind);
   };
+
+  const handleModalSave = (entry:Entry) => {
+    const updateStages = state.currentRepairEventProfile.stages.map(stage => {
+                if (stage.milestone === props.ongoingMilestone) {
+                  return {
+                    ...stage,
+                    entries: [...stage.entries, entry],
+                  };
+                }
+                return stage;
+    });
+    const profile = { ...state.currentRepairEventProfile, stages: updateStages } as RepairEventProfile
+    dispatch({
+      type: "SET_CURRENT_REPAIR_PROFILE",
+      payload: profile
+    });
+  }
 
   return (
     <section className={styles.section}>
@@ -39,20 +58,7 @@ export function AnnotationSection(props: AnnotationSectionProps) {
       {annotationKind && (
         <AnnotationModal
           open={true} kind={annotationKind} user="John Doe"
-          onSave={(entry) => {
-            props.setRepairEventProfile(prev => {
-              const updatedStages = prev.stages.map(stage => {
-                if (stage.milestone === props.ongoingMilestone) {
-                  return {
-                    ...stage,
-                    entries: [...stage.entries, entry],
-                  };
-                }
-                return stage;
-              });
-              return { ...prev, stages: updatedStages };
-            });
-          }}
+          onSave={handleModalSave}
           onClose={() => setAnnotationKind(null)} />
       )}
 

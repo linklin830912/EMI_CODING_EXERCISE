@@ -1,32 +1,32 @@
-import { MILESTONE_BUTTONS_SEQUENCE, MilestoneKind, RepairEvent, RepairEventProfile } from "@/lib/types";
+import { defaultRepairEventProfile, MILESTONE_BUTTONS_SEQUENCE, MilestoneKind, RepairEvent, RepairEventProfile } from "@/lib/types";
 import { AnnotationSection } from "./Sections/Annotation/AnnotationSection";
 import { FooterSection } from "./Sections/Footer/FooterSection";
 import { MilestoneSection } from "./Sections/Milestone/MilestoneSection";
 import { RecentEntriesSection } from "./Sections/RecentEntries/RecentEntriesSection";
 import { RepairInfoSection } from "./Sections/RepairInfo/RepairInfoSection";
 import styles from "./TabletView.module.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useStore } from "@/store/RepairEventStore";
 
 type TabletViewProps = { repairEvent: RepairEvent };
 
-const defaultRepairEventProfile = (registeredBy: string): RepairEventProfile => {return{
-    step: 0,
-    stages: MILESTONE_BUTTONS_SEQUENCE.map(seq => ({
-    registeredBy,
-    milestone: seq.kind,
-    at: {timestamp: "", time:0},
-    completed: false,
-    entries: [],
-  }))}};
-
 export function TabletView({ repairEvent }: TabletViewProps) {
-  const [ongoingMilestone, setOngoingMilestone] = useState<MilestoneKind | null>(null);
-  const [repairEventProfile, setRepairEventProfile] = useState<RepairEventProfile>(
-    () => defaultRepairEventProfile(repairEvent.registeredBy)
-  );
+  const [ongoingMilestone, setOngoingMilestone] = useState<MilestoneKind | null>(null);  
+  const {state, dispatch} = useStore();
 
-    const handleStartNewRepair = () => {
-    setRepairEventProfile(defaultRepairEventProfile(repairEvent.registeredBy));
+  useEffect(() => {
+    dispatch({
+        type: "SET_CURRENT_REPAIR_PROFILE",
+        payload: defaultRepairEventProfile(repairEvent.registeredBy)
+      });
+  }, [])
+  
+  const handleStartNewRepair = () => {
+      dispatch({
+      type: "SET_CURRENT_REPAIR_PROFILE",
+      payload: defaultRepairEventProfile(repairEvent.registeredBy)
+      });
+    
     setOngoingMilestone(null);
   };
 
@@ -36,17 +36,13 @@ export function TabletView({ repairEvent }: TabletViewProps) {
       <MilestoneSection
         repairEvent={repairEvent}
         setOngoingMilestone={setOngoingMilestone}
-        repairEventProfile={repairEventProfile}
-        setRepairEventProfile={setRepairEventProfile}
       />
     <AnnotationSection
-        setRepairEventProfile={setRepairEventProfile}
-        repairEventProfile={repairEventProfile}
         registeredBy={repairEvent.registeredBy}
         ongoingMilestone={ongoingMilestone} />
-      <RecentEntriesSection repairEventProfile={repairEventProfile} />
+      <RecentEntriesSection repairEventProfile={state.currentRepairEventProfile} />
       <FooterSection
-        isComplete={repairEventProfile.stages.every(stage => stage.completed)}
+        isComplete={state.currentRepairEventProfile.stages.every(stage => stage.completed)}
         handleStartNewRepair={handleStartNewRepair}
       />
     </div>

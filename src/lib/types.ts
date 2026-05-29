@@ -4,7 +4,6 @@
  * You can extend, narrow, or replace these. They're a starting point.
  * See BRIEF.md and design-reference/mockup.md for behaviour.
  */
-
 export type MilestoneKind =
   | 'StartBreakdown'
   | 'ArrivedAtMachine'
@@ -61,6 +60,8 @@ export const MILESTONE_SEQUENCE: readonly MilestoneKind[] = [
   'ReturnToService',
 ] as const;
 
+export type MilestoneButtonColorsType = "red" | "orange" | "gold" | "green";
+
 export const MILESTONE_BUTTONS_SEQUENCE: readonly { title: string, color: MilestoneButtonColorsType, kind: MilestoneKind }[] = [
   { title: 'Start Breakdown', color: 'red', kind: 'StartBreakdown' },
   { title: 'Arrived At Machine', color: 'orange', kind: 'ArrivedAtMachine' },
@@ -82,3 +83,13 @@ export type RepairEventProfile = {
   step: number;
   stages: RepairEventStage[]
 };
+
+export const defaultRepairEventProfile = (registeredBy: string): RepairEventProfile => {return{
+    step: 0,
+    stages: MILESTONE_BUTTONS_SEQUENCE.map(seq => ({
+    registeredBy,
+    milestone: seq.kind,
+    at: {timestamp: "", time:0},
+    completed: false,
+    entries: [],
+  }))}};

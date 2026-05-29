@@ -5,8 +5,6 @@ import { useStore } from "@/store/RepairEventStore";
 import { getTimeStamp } from "@/util/getTimeStamp";
 
 type MilestoneSectionProps = {
-  repairEventProfile: RepairEventProfile;
-  setRepairEventProfile: React.Dispatch<React.SetStateAction<RepairEventProfile>>;
   repairEvent: RepairEvent;
   setOngoingMilestone: React.Dispatch<React.SetStateAction<MilestoneKind | null>>;
 }
@@ -14,7 +12,7 @@ export function MilestoneSection(props: MilestoneSectionProps) {
   const { state, dispatch } = useStore();
   
   const handleMilestoneClick = (index: number) => {
-    const updated: RepairEventStage[] = props.repairEventProfile?.stages.map((stage, i) => {
+    const updated: RepairEventStage[] = state.currentRepairEventProfile?.stages.map((stage, i) => {
     if (i !== index || !state.activeStartTime) return stage;
 
       return {
@@ -30,13 +28,17 @@ export function MilestoneSection(props: MilestoneSectionProps) {
       };
     });
 
-    props.setRepairEventProfile({
-      step: props.repairEventProfile.step + 1,
-      stages: updated as RepairEventProfile["stages"]
-    });
+      dispatch({
+          type: "SET_CURRENT_REPAIR_PROFILE",
+          payload: {
+          step: state.currentRepairEventProfile.step + 1,
+          stages: updated as RepairEventProfile["stages"]
+        }
+      });
+
     props.setOngoingMilestone(index < MILESTONE_BUTTONS_SEQUENCE.length - 1 ? MILESTONE_BUTTONS_SEQUENCE[index]!.kind : null);
     
-    if (props.repairEventProfile.step === MILESTONE_BUTTONS_SEQUENCE.length - 1) {
+    if (state.currentRepairEventProfile.step === MILESTONE_BUTTONS_SEQUENCE.length - 1) {
       dispatch({
       type: "SAVE_REPAIR_EVENT",
       payload: {
@@ -45,7 +47,7 @@ export function MilestoneSection(props: MilestoneSectionProps) {
         system: props.repairEvent.system,
         registeredBy: props.repairEvent.registeredBy,
         status: "Completed",
-        registeredAt: props.repairEventProfile.stages[0]?.at,
+        registeredAt: state.currentRepairEventProfile.stages[0]?.at,
         entries: []
       } as RepairEvent
     }); 
@@ -63,18 +65,18 @@ export function MilestoneSection(props: MilestoneSectionProps) {
             number={index + 1}
             label={milestone.title}
             colour={milestone.color}
-            completed={index < props.repairEventProfile.step}
-            disabled={index >= props.repairEventProfile.step + 1}
+            completed={index < state.currentRepairEventProfile.step}
+            disabled={index >= state.currentRepairEventProfile.step + 1}
             onClick={() => {
               handleMilestoneClick(index)
             }}
           />
-          {props.repairEventProfile && props.repairEventProfile.stages[index]?.completed && <div className={styles.text}>
+          {state.currentRepairEventProfile && state.currentRepairEventProfile.stages[index]?.completed && <div className={styles.text}>
             <div className={styles.completedText}>
-              {props.repairEventProfile.stages[index]?.at.timestamp}
+              {state.currentRepairEventProfile.stages[index]?.at.timestamp}
             </div>
             <div className={styles.completedText}>
-              {props.repairEventProfile.stages[index]?.registeredBy}
+              {state.currentRepairEventProfile.stages[index]?.registeredBy}
             </div>
           </div>}
         </div>)}

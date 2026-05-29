@@ -1,6 +1,5 @@
+import { MilestoneButtonColorsType } from "@/lib/types";
 import styles from "./MilestoneButton.module.css";
-
-export type MilestoneButtonColorsType = "red" | "orange" | "gold" | "green";
 
 type Props = {
   number: number;
