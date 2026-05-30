@@ -1,6 +1,6 @@
 # EMI Coding Exercise
 
-## How to Run
+# How to Run
 
 ```bash
 npm install
@@ -41,8 +41,8 @@ Each stage stores milestone-specific entries and state.
 The store currently manages:
 
 * the current timestamp from `ElapsedTimer`
-* completed `RepairEvent[]`
-* the active `RepairEventProfile`
+* completed `RepairEvent[]` with `SEED_EVENTS` as initial data
+* the active `RepairEventProfile` with `defaultRepairEventProfile` to generate initial data
 
 ### Pros
 
@@ -62,10 +62,8 @@ The store currently manages:
 
 Constants such as:
 
-* metric thresholds (`GOOD_METRIC`, `MID_METRIC`)
-* milestone labels
-* button styles
-* colour mappings
+* metric thresholds: (`GOOD_METRIC=10`, `MID_METRIC=30`) under 10 minutes is a fast response, 10–30 minutes is acceptable, over 30 minutes warrants attention.
+* button styles and colour mappings: `MILESTONE_BUTTONS_SEQUENCE: { title: string, color: MilestoneButtonColorsType, kind: MilestoneKind }[]`, `ANNOTATION_BUTTONS: { title: string, kind: AnnotationKind }[]`
 
 are currently stored centrally in `types.ts`.
 

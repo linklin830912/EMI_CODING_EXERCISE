@@ -33,7 +33,7 @@ While functional, this mixed domain logic with presentation details.
 
 A better approach would be to:
 - Introduce a central theme or design token system (colours, spacing, semantic states)
-- Map domain concepts to semantic roles (e.g. success / warning / danger) rather than direct colour values
+- Map domain concepts to semantic roles (ex: success / warning / danger) rather than direct colour values
 - Apply styling consistently through a shared theme layer (CSS variables or token module)
 
 This improves maintainability and makes future UI changes easier.
@@ -57,7 +57,7 @@ This prepare the system for future reporting and dashboard features.
 ## 5. Extend attribution model for milestone ownership changes
 Currently, each repair event is associated with a single user (`registerBy`), which assumes ownership does not change during the lifecycle of an event.
 
-In real operational contexts, responsibility may shift during a repair, especially in stopped-revised events
+In real operational contexts, responsibility may shift during a repair, especially in events that are put on hold or reassigned mid-repair.
 
 A more flexible model would:
 - Allow multiple users to be associated with a single event over time
