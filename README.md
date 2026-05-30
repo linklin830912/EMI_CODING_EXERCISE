@@ -14,13 +14,7 @@ npm run dev
 
 ### Context
 
-For active RepairEvent, I introduced a separate `RepairEventProfile` structure with field:
-
-```ts
-stages: RepairEventStage[]
-```
-
-Each stage stores milestone-specific entries and state.
+For active RepairEvent, I introduced a separate `RepairEventProfile` structure with field `stages: RepairEventStage[]`. Each stage stores milestone-specific entries and state.
 
 ### Pros
 

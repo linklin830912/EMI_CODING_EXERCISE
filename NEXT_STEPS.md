@@ -10,7 +10,7 @@ A more scalable approach would be to:
 - Derive `active`, `stopped`, and `completed` states from event status rather than separate storage
 - Avoid adding the active event into the array manually when switching views
 
-This would have a better state consistency and support multi-device scenarios.
+This would improve state consistency and support multi-device scenarios.
 
 ---
 
